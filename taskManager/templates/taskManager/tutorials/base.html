@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>django.nV Tutorials</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Styles
+    ================================================== -->
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static "taskManager/css/bootstrap.css" %}"/>
+    <link rel="stylesheet" href="{% static "taskManager/css/backend/bootstrap-reset.css" %}"/>
+    <link rel="stylesheet" href="{% static "taskManager/css/font-awesome.css" %}"/>
+    <link rel="stylesheet" href="{% static "taskManager/css/railscasts.css" %}"/>
+    <link rel="stylesheet" href="{% static "taskManager/css/backend/style.css" %}"/>
+    <link rel="stylesheet" href="{% static "taskManager/css/backend/style-responsive.css" %}"/>
+
+    <!-- Google Fonts
+    ================================================== -->
+
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    </head>
+<body>
+  <section id="container">
+
+<!-- Header
+================================================== -->
+ <!--header start-->
+  <header class="header white-bg">
+        <!--logo start-->
+        <a href="/taskManager/" class="logo">Task<span>Manager</span></a>
+        <!--logo end-->
+
+          <div class="top-nav ">
+            <!--search & user info start-->
+            <ul class="nav pull-right top-menu">
+               <li><a class="tutorial_creds" data-toggle="modal" href="#myModal">Tutorial Credentials</a></li>
+               {% if user.is_authenticated %}
+                  <li><a href="{% url 'taskManager:dashboard' %}">Back to App</a></li>
+               {% else %}
+                  <li><a href="{% url 'taskManager:login' %}">Login</a></li>
+               {% endif %}
+                {% if user.is_authenticated %}
+                <!-- user login dropdown start-->
+                <li class="dropdown">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <span class="username">{{ user.username|safe }}</span>
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu extended logout">
+                        <div class="log-arrow-up"></div>
+                        <li><a href="#"><i class="fa fa-cog"></i> Profile</a></li>
+                        <li><a href="/taskManager/logout"><i class="fa fa-key"></i> Log Out</a></li>
+                    </ul>
+                </li>
+                {% endif %}
+                <!-- user dropdown end -->
+            </ul>
+            <!--search & user info end-->
+        </div>
+    </header>
+  <!--header end-->
+
+<!-- Sidebar
+================================================== -->
+<aside>
+    <div id="sidebar"  class="nav-collapse ">
+        <!-- sidebar menu start-->
+        <ul class="sidebar-menu" id="nav-accordion">
+            <li>
+                <a class="active" href="{% url 'taskManager:show_tutorial' 'injection' %}">
+                    <i class="fa fa-bug"></i>
+                    <span>A1 - Injection</span>
+                </a>
+            </li>
+            <li>
+                <a class="active" href="{% url 'taskManager:show_tutorial' 'brokenauth' %}">
+                    <i class="fa fa-bug"></i>
+                    <span>A2 - Broken Auth</span>
+                </a>
+            </li>
+            <li>
+                <a class="active" href="{% url 'taskManager:show_tutorial' 'xss' %}">
+                    <i class="fa fa-bug"></i>
+                    <span>A3 - XSS</span>
+                </a>
+            </li>
+            <li>
+                <a class="active" href="{% url 'taskManager:show_tutorial' 'idor' %}">
+                    <i class="fa fa-bug"></i>
+                    <span>A4 - Insecure DOR</span>
+                </a>
+            </li>
+            <li>
+                <a class="active" href="{% url 'taskManager:show_tutorial' 'misconfig' %}">
+                    <i class="fa fa-bug"></i>
+                    <span>A5 - Misconfig</span>
+                </a>
+            </li>
+            <li>
+                <a class="active" href="{% url 'taskManager:show_tutorial' 'exposure' %}">
+                    <i class="fa fa-bug"></i>
+                    <span>A6 - Exposure</span>
+                </a>
+            </li>
+            <li>
+                <a class="active" href="{% url 'taskManager:show_tutorial' 'access' %}">
+                    <i class="fa fa-bug"></i>
+                    <span>A7 - Access</span>
+                </a>
+            </li>
+            <li>
+                <a class="active" href="{% url 'taskManager:show_tutorial' 'csrf' %}">
+                    <i class="fa fa-bug"></i>
+                    <span>A8 - CSRF</span>
+                </a>
+            </li>
+            <li>
+                <a class="active" href="{% url 'taskManager:show_tutorial' 'components' %}">
+                    <i class="fa fa-bug"></i>
+                    <span>A9 - Components</span>
+                </a>
+            </li>
+            <li>
+                <a class="active" href="{% url 'taskManager:show_tutorial' 'redirects' %}">
+                    <i class="fa fa-bug"></i>
+                    <span>A10 - Redirects</span>
+                </a>
+            </li>
+        </ul>
+        <!-- sidebar menu end-->
+    </div>
+</aside>
+<!--sidebar end-->
+
+<!-- Sidebar -->
+
+ <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h4 class="modal-title">Tutorial Credentials</h4>
+              </div>
+              <div class="modal-body">
+                   <div class="row">
+                        <div class="col-sm-12">
+                            <section class="panel">
+                                <header class="panel-heading">
+                                    <strong>*WARNING - SPOILER ALERT*</strong> | Click "I understand" to see the credentials
+                                </header>
+                                <table id="creds" class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Username</th>
+                                        <th>Password</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>admin</td>
+                                        <td>djangobango</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>seth</td>
+                                        <td>soccerlover</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>chris</td>
+                                        <td>ilovedjango</td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>ken</td>
+                                        <td>koala1234</td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>dade</td>
+                                        <td>hacktheplanet</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </section>
+                        </div>
+                    </div>
+
+
+              </div>
+              <div class="modal-footer">
+                  <button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
+                  <button id="show_creds" class="btn btn-primary" type="button">I understand</button>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- modal -->
+
+<!-- Body/content
+================================================== -->
+<section id="main-content">
+  <section class="wrapper">
+    {% block content %}
+    {% endblock %}
+  </section>
+</section>
+
+<!-- Body/content -->
+
+<!-- Footer
+================================================== -->
+
+<!--footer start-->
+
+<!--footer end-->
+
+<!-- End Footer -->
+
+<!-- Javascript
+================================================== -->
+<script src="{% static "taskManager/js/jquery-1.8.3.min.js" %}"></script>
+<script src="{% static "taskManager/js/bootstrap.js" %}"></script>
+<script src="{% static "taskManager/js/highlight.pack.js" %}"></script>
+<script src="{% static "taskManager/js/backend/jquery.dcjqaccordion.2.7.js" %}"></script>
+<script src="{% static "taskManager/js/backend/jquery.scrollTo.min.js" %}"></script>
+<script src="{% static "taskManager/js/backend/jquery.nicescroll.js" %}"></script>
+<script src="{% static "taskManager/js/backend/jquery.sparkline.js" %}"></script>
+<script src="{% static "taskManager/js/backend/jquery.customSelect.min.js" %}"></script>
+<script src="{% static "taskManager/js/backend/respond.min.js" %}"></script>
+<script src="{% static "taskManager/js/backend/slidebars.min.js" %}"></script>
+<script src="{% static "taskManager/js/backend/common-scripts.js" %}"></script>
+<script src="{% static "taskManager/js/backend/xregexp.js" %}"></script>
+
+<style type="text/css">
+.top-nav ul.top-menu > li > a.tutorial_creds{
+background: #F77B6F;
+color: #fff;"
+
+
+}
+.top-nav ul.top-menu > li > a.tutorial_creds:hover {
+background: #F77B6F !important;
+color: #fff !important;
+}
+.top-nav ul.top-menu > li > a.tutorial_creds:focus {
+background: #F77B6F !important;
+color: #fff !important;
+}
+</style>
+
+<script>
+
+hljs.initHighlightingOnLoad();
+
+$(function(){
+    $('select.styled').customSelect();
+});
+
+$('#creds').hide();
+
+$('#show_creds').click(function(e){
+   e.preventDefault();
+   $('#creds').show();
+   $('#show_creds').hide();
+});
+
+</script>
+
+
+  </section>
+
+</body>
+</html>

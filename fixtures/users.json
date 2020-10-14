@@ -1,0 +1,73 @@
+[
+  {
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+      "first_name" : "",
+      "last_name" : "",
+      "username" : "admin",
+      "password": "md5$oAKvI66ce0Xq$a5c1836db3d6dedff5deca630a358d8b",
+      "is_superuser" : true,
+      "email" : "admin@tm.com",
+      "is_staff" : true,
+      "is_active" : true
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+      "first_name" : "Seth",
+      "last_name" : "Law",
+      "username" : "seth",
+      "password": "md5$G2RnRaK0svMB$12a67c3542946460e94cd6112d97ec2b",
+      "is_superuser" : true,
+      "email" : "seth@tm.com",
+      "is_staff" : true,
+      "is_active" : true
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 3,
+    "fields": {
+      "first_name" : "Chris",
+      "last_name" : "Zawora",
+      "username" : "chris",
+      "password": "md5$sDFtfDxV4Xaa$893c99cdcee5a45e51fa098660d53bf8",
+      "is_superuser" : false,
+      "email" : "chris@tm.com",
+      "is_staff" : true,
+      "is_active" : true
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 4,
+    "fields": {
+      "first_name" : "Ken",
+      "last_name" : "Johnson",
+      "username" : "ken",
+      "password": "md5$Kw9aLHJ4zHLR$2e1e56765119e0158012f77a591be5de",
+      "is_superuser" : false,
+      "email" : "ken@tm.com",
+      "is_staff" : true,
+      "is_active" : true
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 5,
+    "fields": {
+      "first_name" : "Dade",
+      "last_name" : "Murphy",
+      "username" : "dade",
+      "password": "md5$niTI8Z7A9XvV$641ae74c7472d5c907c66994b2289314",
+      "is_superuser" : false,
+      "email" : "dade@zerocool.net",
+      "is_staff" : false,
+      "is_active" : true
+    }
+  }
+  
+]

@@ -1,0 +1,82 @@
+ <section class="wrapper site-min-height">
+     <!-- page start-->
+     <div class="row">
+       <div class="col-md-9">
+     <div class="tab-content">
+     <div class="tab-pane active" id="tab_1">
+         <div class="panel-group" id="accordion1">
+             <div class="panel panel-default">
+                 <div class="panel-heading">
+                     <h4 class="panel-title">
+                         <a href="#accordion1_1" data-parent="#accordion1" data-toggle="collapse" class="accordion-toggle">
+                             Broken Authentication and Session Management
+                         </a>
+                     </h4>
+                 </div>
+                 <div class="panel-collapse collapse  in" id="accordion1_1">
+                     <div class="panel-body">
+                       <h6><strong>Description</strong></h6>
+                        <p>
+                          User credentials may be stolen, sessions hijacked, and privileges escalated through implementation flaws in the authentication process, poor protections on session credentials, and insecure practices during the registration process.
+                        </p>
+                     </div>
+                 </div>
+             </div>
+             <div class="panel panel-danger">
+                 <div class="panel-heading">
+                     <h4 class="panel-title">
+                         <a href="#accordion1_2" data-parent="#accordion1" data-toggle="collapse" class="accordion-toggle">
+                            Bug
+                         </a>
+                     </h4>
+                 </div>
+                 <div class="panel-collapse collapse" id="accordion1_2">
+                    <div class="panel-body">
+                        The application is vulnerable to a mass assignment attack on the registration page. This is due to the UserForm found within the <i>forms.py</i> file. It includes an incomplete 
+                        blacklist of the User model attributes that cannot be set via this form; <code>is_superuser</code> is not included. Due to this, an attacker could manually enable the <code>is_superuser</code> flag
+                        by appending it to the form prior to submitting it to the application.<br />
+                        <br />
+                        Furthermore, the application uses an insecure method of session storage. <code>CookieStorage</code> is used as the session backend, meaning signed session information is used. This allows
+                        any attacker to read session information right from the cookie. The information is also stored with the PickleSerializer. If the SECRET_KEY is ever compromised, the attacker can
+                        not only modify values in the session, but they can also exploit the pickle module for arbitrary code execution on the server
+                    </div>
+                 </div>
+             </div>
+             <div class="panel panel-success">
+                 <div class="panel-heading">
+                     <h4 class="panel-title">
+                         <a href="#accordion1_3" data-parent="#accordion1" data-toggle="collapse" class="accordion-toggle">
+                            Solution
+                         </a>
+                     </h4>
+                 </div>
+                 <div class="panel-collapse collapse" id="accordion1_3">
+                     <div class="panel-body">
+                         It is almost always better to leverage a whitelist over a blacklist when restricting valid values. In this case, the 'exclude' blacklist array should be replaced with the
+                         'fields' whitelist array. This array should include only the User model attributes which can be modified by a user. For this application, it may include the following attributes: <code>fields = ('username', 'first_name', 'last_name', 'email', 'password')</code><br />
+                         <br />
+                         Avoid using <code>CookieStorage</code> for user session storage. It is best to store all session information on the server, and pass only a session token to the user, so session variables
+                         cannot be read without accessing the server first. Furthermore, the default in Django 1.6+ (JSONSerializer) is much more secure and does not suffer from code execution vulnerabilities
+                         like PickleSerializer, so it should be used instead.
+                     </div>
+                 </div>
+             </div>
+             <div class="panel panel-warning">
+                 <div class="panel-heading">
+                     <h4 class="panel-title">
+                         <a href="#accordion1_4" data-parent="#accordion1" data-toggle="collapse" class="accordion-toggle">
+                             Hint
+                         </a>
+                     </h4>
+                 </div>
+                 <div class="panel-collapse collapse" id="accordion1_4">
+                     <div class="panel-body">
+                         Mass assignment is the hip new auth bypass. Surprisingly enough, there's some of it in this app too.
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+     </div>
+     <!-- page end-->
+ </section>
