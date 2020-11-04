@@ -11,15 +11,15 @@ stages:
   - integration
   - prod
 
+cache:
+  paths:
+    - node_modules/
+
 install_dependencies:
   stage: build
   image: node:alpine3.10
   script:
     - npm install
-  cache:
-    untracked: true 
-    paths:
-      - node_modules/
   artifacts:
     paths:
       - node_modules/
