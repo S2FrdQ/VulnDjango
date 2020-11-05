@@ -10,19 +10,6 @@ stages:
   - preprod
   - integration
   - prod
-
-cache:
-  paths:
-    - node_modules/
-
-install_dependencies:
-  stage: build
-  image: node:alpine3.10
-  script:
-    - npm install
-  artifacts:
-    paths:
-      - node_modules/
       
 build:
   stage: build
