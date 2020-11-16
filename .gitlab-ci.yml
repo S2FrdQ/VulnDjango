@@ -13,32 +13,23 @@ stages:
       
 build:
   stage: build
-  image: python:3.6
-  before_script:
-   - pip3 install --upgrade virtualenv
   script:
-   - virtualenv env
-   - source env/bin/activate
-   - pip install -r requirements.txt
-   - python manage.py check
+    - echo "This is a build step"
 
 test:
   stage: test
-  image: python:3.6
-  before_script:
-   - pip3 install --upgrade virtualenv
   script:
-   - virtualenv env
-   - source env/bin/activate
-   - pip install -r requirements.txt
-   - python manage.py test taskManager
+    - echo "This is a test step"
 
 integration:
   stage: integration
   script:
     - echo "This is an integration step"
+    - exit 1
+  allow_failure: true # Even if the job fails, continue to the next stages
 
 prod:
   stage: prod
   script:
     - echo "This is a deploy step"
+  when: manual # Continuous Delivery
