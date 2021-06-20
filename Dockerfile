@@ -1,5 +1,5 @@
 # FROM python base image
-FROM python:2-alpine
+FROM python:3-alpine
 
 # COPY startup script
 COPY . /app
