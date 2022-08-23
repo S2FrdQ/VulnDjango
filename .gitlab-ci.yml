@@ -10,26 +10,8 @@ stages:
   - preprod
   - integration
   - prod
-      
-build:
+
+job:
   stage: build
   script:
-    - echo "This is a build step"
-
-test:
-  stage: test
-  script:
-    - echo "This is a test step"
-
-integration:
-  stage: integration
-  script:
-    - echo "This is an integration step"
-    - exit 1
-  allow_failure: true # Even if the job fails, continue to the next stages
-
-prod:
-  stage: prod
-  script:
-    - echo "This is a deploy step"
-  when: manual # Continuous Delivery
+    - echo "I'm a job"
