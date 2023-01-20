@@ -16,6 +16,8 @@
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+AWS_ACCESS_KEY_ID='AKIA4GQAF5DFSF2MM'
+AWS_SECRET_ACCESS_KEY='wJalrXUtnFEMI/K7MDENG/bPxRfiCY6mdZTt9XTd'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
