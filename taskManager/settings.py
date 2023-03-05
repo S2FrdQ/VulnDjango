@@ -16,10 +16,10 @@
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-AWS_ACCESS_KEY_ID='AKIA4GQAF5DFSF2MM'
-AWS_SECRET_ACCESS_KEY='wJalrXUtnFEMI/K7MDENG/bPxRfiCY6mdZTt9XTd'
+AWS_ACCESS_KEY_ID = 'AKIAYVP4CIPPERUVIFXG'
+AWS_SECRET_ACCESS_KEY = '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'
 
-SLACK_API_TOKEN='xoxp-4797898847-4799393255-4778181812-f140b6'
+SLACK_API_TOKEN = 'xoxp-4797898847-4799393255-4778181812-f140b6'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
@@ -45,12 +45,11 @@ INSTALLED_APPS = (
     'taskManager'
 )
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    'django.middleware.common.CommonMiddleware', 'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
@@ -84,6 +83,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
 # Static files (CSS, JavaScript, Images)
@@ -96,7 +97,23 @@ STATICFILES_DIRS = (
     '/var/www/static/',
 )
 
-TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
+# TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
 
 LOGIN_URL = '/taskManager/login/'
 

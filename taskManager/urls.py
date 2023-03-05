@@ -4,7 +4,7 @@
 # \__,_|/ \__,_|_||_\__, \___(_)_||_\_/
 #     |__/          |___/
 #
-#			INSECURE APPLICATION WARNING
+# INSECURE APPLICATION WARNING
 #
 # django.nV is a PURPOSELY INSECURE web-application
 # meant to demonstrate Django security problems
@@ -12,16 +12,17 @@
 # from django.nV for use in another web application!
 #
 
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 from django.contrib import admin
+from taskManager.views import index
+from taskManager import taskManager_urls
 
-urlpatterns = patterns('',
-                       url(r'^$',
-                           'taskManager.views.index',
-                           name='index'),
-                       url(r'^taskManager/',
-                           include('taskManager.taskManager_urls',
-                                   namespace="taskManager")),
-                       url(r'^admin/',
-                           include(admin.site.urls)),
-                      )
+urlpatterns = [
+    url(r'^$',
+        index,
+        name='index'),
+    url(r'^taskManager/',
+        include(taskManager_urls,
+                namespace="taskManager")),
+    url(r'^admin/', admin.site.urls),
+]

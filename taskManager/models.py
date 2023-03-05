@@ -21,7 +21,7 @@ from django.db import models
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, on_delete=models.DO_NOTHING)
     image = models.CharField(max_length=3000, default="")
     reset_token = models.CharField(max_length=7, default="")
     reset_token_expiration = models.DateTimeField(default=timezone.now)
@@ -59,7 +59,7 @@ class Project(models.Model):
 
 
 class Task(models.Model):
-    project = models.ForeignKey(Project, default=1)
+    project = models.ForeignKey(Project, default=1, on_delete=models.DO_NOTHING)
     text = models.CharField(max_length=200)
     title = models.CharField(max_length=200, default="N/A")
     start_date = models.DateTimeField('date created')
@@ -86,7 +86,7 @@ class Task(models.Model):
 
 
 class Notes(models.Model):
-    task = models.ForeignKey(Task, default=1)
+    task = models.ForeignKey(Task, default=1, on_delete=models.DO_NOTHING)
     title = models.CharField(max_length=200, default="N/A")
     text = models.CharField(max_length=200)
     image = models.CharField(max_length=200)
@@ -97,7 +97,7 @@ class Notes(models.Model):
 
 
 class File(models.Model):
-    project = models.ForeignKey(Project)
+    project = models.ForeignKey(Project, on_delete=models.DO_NOTHING)
     name = models.CharField(max_length=300, default="")
     path = models.CharField(max_length=3000, default="")
 

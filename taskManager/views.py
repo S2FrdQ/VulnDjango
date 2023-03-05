@@ -4,7 +4,7 @@
 # \__,_|/ \__,_|_||_\__, \___(_)_||_\_/
 #     |__/          |___/
 #
-#			INSECURE APPLICATION WARNING
+# INSECURE APPLICATION WARNING
 #
 # django.nV is a PURPOSELY INSECURE web-application
 # meant to demonstrate Django security problems
@@ -17,7 +17,7 @@ import mimetypes
 import os
 import codecs
 
-from django.shortcuts import render, render_to_response, redirect
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.utils import timezone
 from django.template import RequestContext
@@ -41,7 +41,7 @@ def manage_tasks(request, project_id):
     user = request.user
     proj = Project.objects.get(pk=project_id)
 
-    if user.is_authenticated():
+    if user.is_authenticated:
 
         if user.has_perm('can_change_task'):
 
@@ -57,13 +57,12 @@ def manage_tasks(request, project_id):
 
                 return redirect('/taskManager/')
             else:
-                return render_to_response(
-                    'taskManager/manage_tasks.html',
-                    {
-                        'tasks': Task.objects.filter(
-                            project=proj).order_by('title'),
-                        'users': User.objects.order_by('date_joined')},
-                    RequestContext(request))
+                return render(request,
+                              'taskManager/manage_tasks.html',
+                              {
+                                  'tasks': Task.objects.filter(
+                                      project=proj).order_by('title'),
+                                  'users': User.objects.order_by('date_joined')})
 
         else:
             return redirect('/taskManager/', {'permission': False})
@@ -75,7 +74,7 @@ def manage_projects(request):
 
     user = request.user
 
-    if user.is_authenticated():
+    if user.is_authenticated:
         logged_in = True
 
         if user.has_perm('can_change_group'):
@@ -93,13 +92,12 @@ def manage_projects(request):
                 return redirect('/taskManager/')
             else:
 
-                return render_to_response(
-                    'taskManager/manage_projects.html',
-                    {
-                        'projects': Project.objects.order_by('title'),
-                        'users': User.objects.order_by('date_joined'),
-                        'logged_in': logged_in},
-                    RequestContext(request))
+                return render(request,
+                              'taskManager/manage_projects.html',
+                              {
+                                  'projects': Project.objects.order_by('title'),
+                                  'users': User.objects.order_by('date_joined'),
+                                  'logged_in': logged_in})
 
         else:
             return redirect('/taskManager/', {'permission': False})
@@ -111,7 +109,7 @@ def manage_groups(request):
 
     user = request.user
 
-    if user.is_authenticated():
+    if user.is_authenticated:
 
         user_list = User.objects.order_by('date_joined')
 
@@ -134,29 +132,27 @@ def manage_groups(request):
                     return redirect('/taskManager/', {'permission': False})
                 specified_user.groups.add(grp)
                 specified_user.save()
-                return render_to_response(
-                    'taskManager/manage_groups.html',
-                    {
-                        'users': user_list,
-                        'groups_changed': True,
-                        'logged_in': True},
-                    RequestContext(request))
+                return render(request,
+                              'taskManager/manage_groups.html',
+                              {
+                                  'users': user_list,
+                                  'groups_changed': True,
+                                  'logged_in': True})
             else:
-                return render_to_response(
-                    'taskManager/manage_groups.html',
-                    {
-                        'users': user_list,
-                        'logged_in': True},
-                    RequestContext(request))
+                return render(request,
+                              'taskManager/manage_groups.html',
+                              {
+                                  'users': user_list,
+                                  'logged_in': True})
 
         else:
             if user.has_perm('can_change_group'):
-                return render_to_response(
-                    'taskManager/manage_groups.html',
-                    {
-                        'users': user_list,
-                        'logged_in': True},
-                    RequestContext(request))
+                return render(request,
+                              'taskManager/manage_groups.html',
+                              {
+                                  'users': user_list,
+                                  'logged_in': True},
+                              )
             else:
                 return redirect('/taskManager/', {'permission': False})
 
@@ -174,15 +170,15 @@ def upload(request, project_id):
             name = request.POST.get('name', False)
             upload_path = store_uploaded_file(name, request.FILES['file'])
 
-            #A1 - Injection (SQLi)
+            # A1 - Injection (SQLi)
             curs = connection.cursor()
             curs.execute(
                 "insert into taskManager_file ('name','path','project_id') values ('%s','%s',%s)" %
                 (name, upload_path, project_id))
 
             # file = File(
-            #name = name,
-            #path = upload_path,
+            # name = name,
+            # path = upload_path,
             # project = proj)
 
             # file.save()
@@ -193,8 +189,8 @@ def upload(request, project_id):
             form = ProjectFileForm()
     else:
         form = ProjectFileForm()
-    return render_to_response(
-        'taskManager/upload.html', {'form': form}, RequestContext(request))
+    return render(request,
+                  'taskManager/upload.html', {'form': form})
 
 
 def download(request, file_id):
@@ -219,13 +215,13 @@ def download_profile_pic(request, user_id):
         return redirect(filepath)
     else:
         return redirect('/static/taskManager/uploads/default.png')
-    #filename = user.get_full_name()+"."+filepath.split(".")[-1]
+    # filename = user.get_full_name()+"."+filepath.split(".")[-1]
     # try:
-    #	abspath = open(filepath, 'rb')
+    # abspath = open(filepath, 'rb')
     # except:
-    #	abspath = open("./taskmanager"+filepath, 'rb')
-    #response = HttpResponse(content=abspath.read())
-    #response['Content-Type']= mimetypes.guess_type(filepath)[0]
+    # abspath = open("./taskmanager"+filepath, 'rb')
+    # response = HttpResponse(content=abspath.read())
+    # response['Content-Type']= mimetypes.guess_type(filepath)[0]
     # return response
 
 
@@ -256,8 +252,8 @@ def task_create(request, project_id):
         return redirect('/taskManager/' + project_id +
                         '/', {'new_task_added': True})
     else:
-        return render_to_response(
-            'taskManager/task_create.html', {'proj_id': project_id}, RequestContext(request))
+        return render(request,
+                      'taskManager/task_create.html', {'proj_id': project_id})
 
 
 def task_edit(request, project_id, task_id):
@@ -280,8 +276,8 @@ def task_edit(request, project_id, task_id):
 
         return redirect('/taskManager/' + project_id + '/' + task_id)
     else:
-        return render_to_response(
-            'taskManager/task_edit.html', {'task': task}, RequestContext(request))
+        return render(request,
+                      'taskManager/task_edit.html', {'task': task})
 
 # A4: Insecure Direct Object Reference (IDOR)
 
@@ -328,10 +324,9 @@ def project_create(request):
 
         return redirect('/taskManager/', {'new_project_added': True})
     else:
-        return render_to_response(
-            'taskManager/project_create.html',
-            {},
-            RequestContext(request))
+        return render(request,
+                      'taskManager/project_create.html',
+                      {})
 
 def project_edit(request, project_id):
 
@@ -353,15 +348,14 @@ def project_edit(request, project_id):
 
         return redirect('/taskManager/' + project_id + '/')
     else:
-        return render_to_response(
-            'taskManager/project_edit.html', {'proj': proj}, RequestContext(request))
+        return render(request,
+                      'taskManager/project_edit.html', {'proj': proj})
 
 
 def project_delete(request, project_id):
     project = Project.objects.get(pk=project_id)
     project.delete()
     return redirect('/taskManager/dashboard')
-
 
 
 def logout_view(request):
@@ -394,15 +388,12 @@ def login(request):
                           'taskManager/login.html',
                           {'invalid_username': False})
     else:
-        return render_to_response(
-            'taskManager/login.html',
-            {},
-            RequestContext(request))
+        return render(request,
+                      'taskManager/login.html',
+                      {})
 
 
 def register(request):
-
-    context = RequestContext(request)
 
     registered = False
 
@@ -419,7 +410,7 @@ def register(request):
 
             # add user to lowest permission group
 
-            #grp = Group.objects.get(name='team_member')
+            # grp = Group.objects.get(name='team_member')
             # user.groups.add(grp)
 
             user.userProfile = UserProfile.objects.create(user=user)
@@ -439,10 +430,9 @@ def register(request):
         user_form = UserForm()
 
     # Render the template depending on the context.
-    return render_to_response(
-        'taskManager/register.html',
-        {'user_form': user_form, 'registered': registered},
-        context)
+    return render(request,
+                  'taskManager/register.html',
+                  {'user_form': user_form, 'registered': registered})
 
 
 def index(request):
@@ -455,10 +445,10 @@ def index(request):
 
     list_to_show = []
     for project in sorted_projects:
-        if(project.users_assigned.filter(username=request.user.username)).exists():
+        if (project.users_assigned.filter(username=request.user.username)).exists():
             list_to_show.append(project)
 
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         return redirect("/taskManager/dashboard")
     else:
         return render(
@@ -525,8 +515,8 @@ def note_create(request, project_id, task_id):
         return redirect('/taskManager/' + project_id + '/' +
                         task_id, {'new_note_added': True})
     else:
-        return render_to_response(
-            'taskManager/note_create.html', {'task_id': task_id}, RequestContext(request))
+        return render(request,
+                      'taskManager/note_create.html', {'task_id': task_id})
 
 
 def note_edit(request, project_id, task_id, note_id):
@@ -550,8 +540,8 @@ def note_edit(request, project_id, task_id, note_id):
 
         return redirect('/taskManager/' + project_id + '/' + task_id)
     else:
-        return render_to_response(
-            'taskManager/note_edit.html', {'note': note}, RequestContext(request))
+        return render(request,
+                      'taskManager/note_edit.html', {'note': note})
 
 
 def note_delete(request, project_id, task_id, note_id):
@@ -572,7 +562,7 @@ def task_details(request, project_id, task_id):
 
     logged_in = True
 
-    if not request.user.is_authenticated():
+    if not request.user.is_authenticated:
         logged_in = False
 
     admin_level = False
@@ -699,7 +689,7 @@ def profile_by_id(request, user_id):
                 user.set_password(request.POST.get('password'))
             if request.FILES:
                 user.userprofile.image = store_uploaded_file(user.username
-                + "." + request.FILES['picture'].name.split(".")[-1], request.FILES['picture'])
+                                                             + "." + request.FILES['picture'].name.split(".")[-1], request.FILES['picture'])
                 user.userprofile.save()
             user.save()
             messages.info(request, "User Updated")
@@ -715,7 +705,7 @@ def reset_password(request):
         reset_token = request.POST.get('reset_token')
 
         try:
-            userprofile = UserProfile.objects.get(reset_token = reset_token)
+            userprofile = UserProfile.objects.get(reset_token=reset_token)
             if timezone.now() > userprofile.reset_token_expiration:
                 # Reset the token and move on
                 userprofile.reset_token_expiration = timezone.now()

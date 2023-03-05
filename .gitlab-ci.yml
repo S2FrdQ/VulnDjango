@@ -1,4 +1,4 @@
-image: docker:latest
+image: docker:20.10
 
 services:
   - docker:dind

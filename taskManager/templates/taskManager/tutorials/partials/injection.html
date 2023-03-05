@@ -59,7 +59,7 @@
             form = ProjectFileForm()
     else:
         form = ProjectFileForm()
-    return render_to_response('taskManager/upload.html', {'form': form}, RequestContext(request))</code></pre>
+    return render('taskManager/upload.html', {'form': form}, RequestContext(request))</code></pre>
                         This code uses the <code>curs.execute()</code> function directly, without any validation on the fields passed. If the user were to submit a file with the filename:
 
                         <pre>testPic',(select password from auth_user where username='admin'),8);--</pre>

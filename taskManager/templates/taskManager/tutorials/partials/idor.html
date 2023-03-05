@@ -36,7 +36,7 @@
                         <br /><br />
                         The example below is the method call for deleting tasks with an associated project. Note the lack of auth checks performed on the <code>task_id</code> before deleting the task.
                     </div>
-                    <pre class="line-numbers"><code class="language-python">def task_delete(request, project_id, task_id):     
+                    <pre class="line-numbers"><code class="language-python">def task_delete(request, project_id, task_id):
     proj = Project.objects.get(pk = project_id)
     task = Task.objects.get(pk = task_id)
     if proj != None:
@@ -57,7 +57,7 @@
                  <div class="panel-collapse collapse" id="accordion1_3">
                      <div class="panel-body">
                          In each function that reads or writes from the database, validate the the user has the appropriate authorization and authentication to perform the action. Within django, there are some <a href="https://docs.djangoproject.com/en/1.9/ref/contrib/auth/#django.contrib.auth.models.User.is_authenticated">useful functions</a> to ensure this, including
-                         <code>user.is_authenticated()</code> and <code>user.has_perm('permission_name')</code>. django.nV exhibits this functionality in some of the view functions as well, including <code>manage_tasks</code> and <code>manage_projects</code>.
+                         <code>user.is_authenticated</code> and <code>user.has_perm('permission_name')</code>. django.nV exhibits this functionality in some of the view functions as well, including <code>manage_tasks</code> and <code>manage_projects</code>.
                          <br /><br />
                          In general, user access must always be checked before any information can be added or changed in the database. Don't assume that just because a method is not linked to, it won't be found!
                      </div>
